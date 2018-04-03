@@ -12,6 +12,7 @@ h = (L/(N+1));
 Lam = 0.1*(10/pi^2);
 
 
+
 %Evaluating the different graphs for 
 %the exact solution with t= T/5, T/2 and T
 
@@ -22,21 +23,21 @@ end
 
 Uexact = zeros(1,N);
 
-for t = T/5;
-    for j = 1:N;
+for t = T/5
+    for j = 1:N
         Uexact1(j) = exp(-D*(k^2)*t)*sin(k*j*h);
     end
 end
 
-for t = T/2;
-    for  j = 1:N;
+for t = T/2
+    for  j = 1:N
         Uexact2(j) = exp(-D*(k^2)*t)*sin(k*j*h);
     end
 end
 
 
-for t = T;
-    for  j = 1:N;
+for t = T
+    for  j = 1:N
         Uexact3(j) = exp(-D*(k^2)*t)*sin(k*j*h);
     end
 end
@@ -49,15 +50,24 @@ hold on
 plot(x,Uexact3);
 %}
 
-%Setting the matrix for coefficients of n+1 terms
+%Setting the matrix D for coefficients of n+1 terms
 A1 = (2+2*Lam)*ones(1,N);
 A2 = -Lam*ones(1,N-1);
 A = diag(A1);
 B = diag(A2,1);
 C = diag(A2,-1);
-D = A+B+C
+D = A+B+C;
 
-%Setting the matrix for coefficients of n terms
+%Setting the matrix G for coefficients of n terms
 E = (2-2*Lam)*ones(1,N);
-F = diag(E)
-G = F+(-B)+(-C)
+F = diag(E);
+G = F+(-B)+(-C);
+
+%Setting the matrix for the boundary condition of 
+%u(x,0)=f(x)
+for j = 1:N
+    Uto(j) = sin(k*h*j);
+end
+
+%Evaluating the first set of Un+1 terms
+Un1tO = (transpose(Uto*G))\D;
