@@ -41,10 +41,23 @@ for t = T;
     end
 end
 
-
-plot(x,Uexact1)
+%{
+plot(x,Uexact1);
 hold on
-plot(x,Uexact2)
+plot(x,Uexact2);
 hold on
-plot(x,Uexact3)
+plot(x,Uexact3);
+%}
 
+%Setting the matrix for coefficients of n+1 terms
+A1 = (2+2*Lam)*ones(1,N);
+A2 = -Lam*ones(1,N-1);
+A = diag(A1);
+B = diag(A2,1);
+C = diag(A2,-1);
+D = A+B+C
+
+%Setting the matrix for coefficients of n terms
+E = (2-2*Lam)*ones(1,N);
+F = diag(E)
+G = F+(-B)+(-C)
