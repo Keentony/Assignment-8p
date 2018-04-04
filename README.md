@@ -8,32 +8,34 @@ T = 10;
 D = 0.1;
 k = 1;
 N = 10;
-h = (L/(N+1));
-Lam = 0.1*(10/pi^2);
+dx = (L/(N+1));
+dt = (T/(N+1));
+%redefined Lam to include proper values
+Lam = D*(dt/dx^2);
 
 %Evaluating the different graphs for 
 %the exact solution with t= T/5, T/2 and T
 
 x = zeros(1,N);
 for j = 1:N
-    x(j) = j*h;
+    x(j) = j*dx;
 end
 
 for t = T/5
     for j = 1:N
-        Uexact1(j) = exp(-D*(k^2)*t)*sin(k*j*h);
+        Uexact1(j) = exp(-D*(k^2)*t)*sin(k*j*dx);
     end
 end
 
 for t = T/2
     for  j = 1:N
-        Uexact2(j) = exp(-D*(k^2)*t)*sin(k*j*h);
+        Uexact2(j) = exp(-D*(k^2)*t)*sin(k*j*dx);
     end
 end
 
 for t = T
     for  j = 1:N
-        Uexact3(j) = exp(-D*(k^2)*t)*sin(k*j*h);
+        Uexact3(j) = exp(-D*(k^2)*t)*sin(k*j*dx);
     end
 end
 
@@ -61,7 +63,7 @@ G = F+(-B)+(-C);
 %Setting the matrix for the boundary condition of 
 %u(x,0)=f(x)
 for j = 1:N
-    Ut0(j) = sin(k*h*j);
+    Ut0(j) = sin(k*dx*j);
 end
 
 %Evaluating the first set of Un+1 terms aka t=1
@@ -70,7 +72,7 @@ Un1t1 = ((Ut0*G)')\D;
 %values which are at t=2
 Un1t2  =((Un1t1*G)')\D;
 %Implementing pseudo code to repat the process 
-%of updating the Un values and solce for Un+1
+%of updating the Un values and solve for Un+1
 a(1) = 0;
 a = (2+2*Lam)*ones(1,N);
 
